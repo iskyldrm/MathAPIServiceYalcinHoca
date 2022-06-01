@@ -19,12 +19,12 @@ namespace MathAPI.Controllers
         }
 
         [HttpGet]
-        public List<Customer> Get()
+        public List<Customer> Get(string CustomerId)
         {
             SqlConnection sqlConnection = new SqlConnection(@"data source=(localdb)\mssqllocaldb;initial catalog=Northwind;integrated security=True");
 
 
-            SqlCommand sqlCommand = new SqlCommand("Select CustomerId,CompanyName,Address from Customers");
+            SqlCommand sqlCommand = new SqlCommand($"Select CustomerId,CompanyName,Address from Customers where CustomerId = '{CustomerId}'");
             sqlCommand.Connection = sqlConnection;
             sqlCommand.CommandType = CommandType.Text;
             sqlConnection.Open();
@@ -38,7 +38,7 @@ namespace MathAPI.Controllers
             {
                 Customer dtoItem = new Customer();
                 dtoItem.CustomerId = reader[0].ToString();
-                //dtoItem.CustomerName = reader[1].ToString();
+                dtoItem.CompanyName = reader[1].ToString();
                 //dtoItem.Adress = reader[2].ToString();
                 dto.Add(dtoItem);
             }
